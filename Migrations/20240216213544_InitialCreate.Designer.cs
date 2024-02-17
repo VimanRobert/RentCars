@@ -12,7 +12,7 @@ using RentCars.Data;
 namespace RentCars.Migrations
 {
     [DbContext(typeof(LibraryContext))]
-    [Migration("20240118174146_InitialCreate")]
+    [Migration("20240216213544_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -141,20 +141,20 @@ namespace RentCars.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("orderId"));
 
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("carId")
                         .HasColumnType("int");
 
                     b.Property<int>("customerDrivingId")
                         .HasColumnType("int");
 
-                    b.Property<int>("customerDrivingId1")
-                        .HasColumnType("int");
-
                     b.HasKey("orderId");
 
                     b.HasIndex("carId");
 
-                    b.HasIndex("customerDrivingId1");
+                    b.HasIndex("customerDrivingId");
 
                     b.ToTable("Order", (string)null);
                 });
@@ -180,7 +180,7 @@ namespace RentCars.Migrations
 
                     b.HasOne("RentCars.Models.Customer", "customer")
                         .WithMany("Orders")
-                        .HasForeignKey("customerDrivingId1")
+                        .HasForeignKey("customerDrivingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

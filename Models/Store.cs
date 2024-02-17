@@ -12,5 +12,6 @@ namespace RentCars.Data
         public required bool isRented { get; set; }
 
         public required Car car { get; set; }
+        public required Made made { get; set; }
     }
 }

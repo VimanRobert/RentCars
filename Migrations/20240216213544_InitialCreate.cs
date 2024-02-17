@@ -24,7 +24,7 @@ namespace RentCars.Migrations
                 {
                     table.PrimaryKey("PK_Car", x => x.carId);
                 });
-
+            
             migrationBuilder.CreateTable(
                 name: "Customer",
                 columns: table => new
@@ -86,9 +86,9 @@ namespace RentCars.Migrations
                 {
                     orderId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    customerDrivingId = table.Column<int>(type: "int", nullable: false),
                     carId = table.Column<int>(type: "int", nullable: false),
-                    customerDrivingId1 = table.Column<int>(type: "int", nullable: false)
+                    OrderDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    customerDrivingId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -100,8 +100,8 @@ namespace RentCars.Migrations
                         principalColumn: "carId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Order_Customer_customerDrivingId1",
-                        column: x => x.customerDrivingId1,
+                        name: "FK_Order_Customer_customerDrivingId",
+                        column: x => x.customerDrivingId,
                         principalTable: "Customer",
                         principalColumn: "customerDrivingId",
                         onDelete: ReferentialAction.Cascade);
@@ -113,9 +113,9 @@ namespace RentCars.Migrations
                 column: "carId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Order_customerDrivingId1",
+                name: "IX_Order_customerDrivingId",
                 table: "Order",
-                column: "customerDrivingId1");
+                column: "customerDrivingId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Store_carId",

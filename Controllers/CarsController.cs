@@ -22,27 +22,58 @@ namespace RentCars.Controllers
         }
 
         // GET: Cars
-        public async Task<IActionResult> Index(string sortOrder, string searchString)
+        public async Task<IActionResult> Index(string sortOrder,
+			string currentFilter, string searchString, int? pageNumber)
         {
-            ViewData["TitleSortParm"] = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
+			ViewData["CurrentSort"] = sortOrder;
+			ViewData["TitleSortParm"] = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
             ViewData["PriceSortParm"] = sortOrder == "Price" ? "price_desc" : "Price";
+            ViewData["Engine"] = sortOrder == "Engine" ? "engine_desc" : "Engine";
             ViewData["CurrentFilter"] = searchString;
-            var car = from b in _context.Car
+            ViewData["ModelSort"] = String.IsNullOrEmpty(sortOrder) ? "model_desc" : "";
+            ViewData["Fuel"] = String.IsNullOrEmpty(sortOrder) ? "fuel_desc" : "";
+
+            if (searchString != null)
+			{
+				pageNumber = 1;
+			}
+			else
+			{
+				searchString = currentFilter;
+			}
+
+			var car = from b in _context.Car
                         select b;
+            var made = from md in _context.Made
+                       select md;
             var store = from c in _context.Store
                         select c;
             if (!String.IsNullOrEmpty(searchString))
             {
                 car = car.Where(s => s.carBrand.Contains(searchString));
+                made = made.Where(m => m.carModel.Contains(searchString));
             }
 
             switch (sortOrder)
             {
                 case "title_desc":
-                    car = car.OrderByDescending(b => b.carBrand);
+                    //car = car.OrderByDescending(b => b.carBrand);
+                    made = made.OrderByDescending(b => b.carBrand);
+                    break;
+                case "model_desc":
+                    made = made.OrderByDescending(b => b.carModel);
+                    break;
+                case "fuel_desc":
+                    made = made.OrderByDescending(b => b.carFuelType);
                     break;
                 case "Price":
                     car = car.OrderBy(b => b.carPrice);
+                    break;
+                case "Engine":
+                    made = made.OrderBy(b => b.carEngine);
+                    break;
+                case "engine_desc":
+                    made = made.OrderByDescending(b => b.carEngine);
                     break;
                 case "price_desc":
                     car = car.OrderByDescending(b => b.carPrice);
@@ -51,7 +82,11 @@ namespace RentCars.Controllers
                     store = store.OrderBy(c => c.isRented);
                     break;
             }
-            return View(await car.AsNoTracking().ToListAsync());
+			int pageSize = 2;
+			//return View(await PaginatedList<Car>.CreateAsync(car.AsNoTracking(), pageNumber ?? 1, pageSize));
+			//return View(await car.AsNoTracking().ToListAsync());
+            return View(await PaginatedList<Made>.CreateAsync(made.AsNoTracking(), pageNumber ?? 1, pageSize));
+            return View(await made.AsNoTracking().ToListAsync());
         }
 
         // GET: Cars/Details/5
@@ -62,16 +97,20 @@ namespace RentCars.Controllers
                 return NotFound();
             }
             
-            var book = await _context.Car.Include(s => s.Orders).ThenInclude(e => e.customer).AsNoTracking().FirstOrDefaultAsync(m => m.carId == id);
-
-            var car = await _context.Car
+            var carx = await _context.Car
+                .Include(s => s.Orders)
+                .ThenInclude(e => e.customer)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.carId == id);
-            if (car == null)
+
+            var cary = await _context.Car
+                .FirstOrDefaultAsync(m => m.carId == id);
+            if (cary == null)
             {
                 return NotFound();
             }
 
-            return View(car);
+            return View(cary);
         }
 
         // GET: Cars/Create

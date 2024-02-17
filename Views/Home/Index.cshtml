@@ -6,8 +6,12 @@
 
 <h1>Available cars</h1>
 <p>
-    <a asp-action="Create">Add new item</a>
+    <a asp-controller="Cars" asp-action="Create">Add new item</a>
 </p>
+<p>
+    View cars and details <a asp-controller="Cars" asp-action="Details">here</a>
+</p>
+
 <table class="table">
     <thead>
         <tr>
@@ -21,7 +25,8 @@
                 <a asp-action="Index" asp-routesortOrder="@ViewData["PriceSortParm"]">@Html.DisplayNameFor(model => model.carPrice)</a>
             </th>
         </tr>
-        </thead>
+    </thead>
+ </table>
  <tbody>
 @* @foreach (var item in Model.Select((value, index) => new { Index = index, Value = value }))
 {

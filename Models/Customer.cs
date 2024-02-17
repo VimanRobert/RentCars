@@ -11,6 +11,6 @@ namespace RentCars.Models
         public required string customerCounty { get; set; }
         public required string customerAdress { get; set; }
 
-        public ICollection<Order> Orders { get; set; }
+        public ICollection<OrderCar> Orders { get; set; }
     }
 }

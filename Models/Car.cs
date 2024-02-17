@@ -7,6 +7,6 @@ namespace RentCars.Models
         [Key] public int carId {  get; set; }
         public required string carBrand { get; set; }
         public double carPrice { get; set; }
-        public ICollection<Order>? Orders { get; set; }
+        public ICollection<OrderCar> Orders { get; set; }
     }
 }

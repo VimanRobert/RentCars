@@ -37,7 +37,7 @@ namespace RentCars.Data
                 {
                     carId = 3,
                     carBrand = "Dacia",
-                    carPrice = 250
+                    carPrice = 250.00
 
                 });
 
@@ -60,10 +60,28 @@ namespace RentCars.Data
                         customerBirthDate = DateTime.Parse("2001 - 02 - 16"),
                         customerCounty = "Cluj",
                         customerAdress = "Str. Bistritei, nr. 11",
+                    },
+
+                    new Customer
+                    {
+                        customerDrivingId = 12443523,
+                        customerName = "Oprea Stefan",
+                        customerBirthDate = DateTime.Parse("1985 - 06 - 26"),
+                        customerCounty = "Cluj",
+                        customerAdress = "Aleea Baisoare, bloc. 8A, nr. 04",
+                    },
+
+                    new Customer
+                    {
+                        customerDrivingId = 12443523,
+                        customerName = "Coman Ana-Maria",
+                        customerBirthDate = DateTime.Parse("1999 - 11 - 20"),
+                        customerCounty = "Satu Mare",
+                        customerAdress = "Mihai Viteazul, bloc. C, nr. 12",
                     });
 
                 context.Made.AddRange(
-                    new Made 
+					new Made
                     { 
                         carId = 1,
                         carBrand = "Skoda",
@@ -91,6 +109,24 @@ namespace RentCars.Data
                         carEngine = renaultEngine,
                         carMadeYear = 2015,
                         carFuelType = "Benzin"
+                    },
+                    new Made
+                    {
+                        carId = 4,
+                        carBrand = "Renault",
+                        carModel = "Megane 3",
+                        carEngine = renaultEngine+0.5,
+                        carMadeYear = 2011,
+                        carFuelType = "Diesel"
+                    },
+                    new Made
+                    {
+                        carId = 5,
+                        carBrand = "Dacia",
+                        carModel = "Spring",
+                        carEngine = renaultEngine + 0.1,
+                        carMadeYear = 2022,
+                        carFuelType = "Full-Electric"
                     });
 
                 /*context.Store.AddRange(

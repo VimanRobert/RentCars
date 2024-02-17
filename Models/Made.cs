@@ -14,5 +14,7 @@ namespace RentCars.Models
         public required double carMadeYear { get; set; }
 
         public required string carFuelType { get; set; }
+
+        //public required Car car { get; set; }
     }
 }
